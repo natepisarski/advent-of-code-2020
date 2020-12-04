@@ -54,17 +54,37 @@ fun day2Solution(linesOfFile: List<String>) {
     println("Count of good passwords: $goodCount");
 }
 
+/**
+ * Day 3 solution to Advent of Code 2020. This involves simulating a grid of trees and using a slope to predict
+ * a sled's trajectory across the grid. It will count the encountered trees as it goes.
+ */
+fun day3Solution(linesOfFile: List<String>) {
+    val grid = Day3Grid(linesOfFile)
+    println("Part One Solution: " + grid.simulate(3, 1))
+
+    val slopeOne = grid.simulate(1, 1)
+    val slopeTwo = grid.simulate(3, 1)
+    val slopeThree = grid.simulate(5, 1)
+    val slopeFour = grid.simulate(7, 1)
+    val slopeFive = grid.simulate(1, 2)
+
+    val product = slopeOne * slopeTwo * slopeThree * slopeFour * slopeFive
+    println("Part Two Solution (using Long): $product");
+}
+
 enum class Day {
     DAY1,
     DAY2,
+    DAY3,
 }
 
 fun main(args: Array<String>) {
-    val day = Day.DAY2;
+    val day = Day.DAY3;
 
     val solutionPairs = arrayOf(
         Triple<Day, String, (a: List<String>) -> Unit>(Day.DAY1, "/home/nate/Code/aoc1kot/day1_puzzle_input.txt", { a -> day1Solution(a) }),
         Triple(Day.DAY2, "/home/nate/Code/aoc1kot/day2_puzzle_input.txt", { a -> day2Solution(a)}),
+        Triple(Day.DAY3, "/home/nate/Code/aoc1kot/day3_puzzle_input.txt", { a -> day3Solution(a)}),
     );
 
     val acceptedSolution = solutionPairs.firstOrNull { (givenDay, _) -> day == givenDay } ?: return
