@@ -72,19 +72,35 @@ fun day3Solution(linesOfFile: List<String>) {
     println("Part Two Solution (using Long): $product");
 }
 
+/**
+ * Day 4 solution to Advent of Code 2020. This involves parsing a text file that acts as a sort of database, for passports.
+ */
+fun day4Solution(linesOfFile: List<String>) {
+    val database = Day4Database(linesOfFile)
+    val okayRecords = database.validate()
+    println("Part One Solution: $okayRecords")
+    val okayRecordsPartTwo = database.validatePartTwo()
+    println("Part Two Solution: $okayRecordsPartTwo")
+}
+
+
+// Everything below this line is what makes this program somewhat "extensible". It sets up the ability to change what
+// day it is via an enum.
 enum class Day {
     DAY1,
     DAY2,
     DAY3,
+    DAY4,
 }
 
 fun main(args: Array<String>) {
-    val day = Day.DAY3;
+    val day = Day.DAY4;
 
     val solutionPairs = arrayOf(
         Triple<Day, String, (a: List<String>) -> Unit>(Day.DAY1, "/home/nate/Code/aoc1kot/day1_puzzle_input.txt", { a -> day1Solution(a) }),
         Triple(Day.DAY2, "/home/nate/Code/aoc1kot/day2_puzzle_input.txt", { a -> day2Solution(a)}),
         Triple(Day.DAY3, "/home/nate/Code/aoc1kot/day3_puzzle_input.txt", { a -> day3Solution(a)}),
+        Triple(Day.DAY4, "/home/nate/Code/aoc1kot/day4_puzzle_input.txt", { a -> day4Solution(a)}),
     );
 
     val acceptedSolution = solutionPairs.firstOrNull { (givenDay, _) -> day == givenDay } ?: return

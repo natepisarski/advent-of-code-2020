@@ -43,7 +43,7 @@ class Day3Row(line: String) {
         }
 
         val tileAtDestination = this.tiles[trackedPosition];
-        
+
         return tileAtDestination == Tile.TREE
     }
 }
