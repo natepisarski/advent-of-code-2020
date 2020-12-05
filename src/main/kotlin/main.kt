@@ -83,6 +83,46 @@ fun day4Solution(linesOfFile: List<String>) {
     println("Part Two Solution: $okayRecordsPartTwo")
 }
 
+/**
+ * Day 5 solution to Advent of Code 2020 - Binary Space Partitioning of an Airplane.
+ */
+fun day5Solution(linesOfFile: List<String>) {
+    // Wants: 552
+    var highestPassId = 0
+    var seats = HashMap<Int, MutableList<Int>>()
+
+    for (line in linesOfFile) {
+        val (row, column) = Day5BoardingPass(line).getPassId()
+
+        var seatList = seats[row]
+        if (seatList == null) {
+            seats[row] = mutableListOf()
+        }
+        seats[row]!!.add(column)
+    }
+
+    var badRow: MutableList<Int> = mutableListOf()
+    var badRowNumber: Int? = null
+
+    for (row in seats.keys) {
+        if (seats[row]!!.count() != 8) {
+            seats[row]!!.sort()
+
+            badRow = seats[row]!!
+            badRowNumber = row
+        }
+    }
+
+    for (number in 1..8) {
+        if (!badRow.contains(number)) {
+            // The -1 here is necessary because of a bug in Day5BoardingPass - it just happens to work for Part 1
+            // because the input data ends in an 'F' instead of a 'B'
+            val passId = (badRowNumber!! - 1) * 8 + number
+            println("Pass ID: $passId")
+        }
+    }
+
+}
 
 // Everything below this line is what makes this program somewhat "extensible". It sets up the ability to change what
 // day it is via an enum.
@@ -91,16 +131,21 @@ enum class Day {
     DAY2,
     DAY3,
     DAY4,
+    DAY5,
 }
 
 fun main(args: Array<String>) {
-    val day = Day.DAY4;
+    val day = Day.DAY5;
 
     val solutionPairs = arrayOf(
-        Triple<Day, String, (a: List<String>) -> Unit>(Day.DAY1, "/home/nate/Code/aoc1kot/day1_puzzle_input.txt", { a -> day1Solution(a) }),
-        Triple(Day.DAY2, "/home/nate/Code/aoc1kot/day2_puzzle_input.txt", { a -> day2Solution(a)}),
-        Triple(Day.DAY3, "/home/nate/Code/aoc1kot/day3_puzzle_input.txt", { a -> day3Solution(a)}),
-        Triple(Day.DAY4, "/home/nate/Code/aoc1kot/day4_puzzle_input.txt", { a -> day4Solution(a)}),
+        Triple<Day, String, (a: List<String>) -> Unit>(
+            Day.DAY1,
+            "/home/nate/Code/aoc1kot/day1_puzzle_input.txt",
+            { a -> day1Solution(a) }),
+        Triple(Day.DAY2, "/home/nate/Code/aoc1kot/day2_puzzle_input.txt", { a -> day2Solution(a) }),
+        Triple(Day.DAY3, "/home/nate/Code/aoc1kot/day3_puzzle_input.txt", { a -> day3Solution(a) }),
+        Triple(Day.DAY4, "/home/nate/Code/aoc1kot/day4_puzzle_input.txt", { a -> day4Solution(a) }),
+        Triple(Day.DAY5, "/home/nate/Code/aoc1kot/day5_puzzle_input.txt", { a -> day5Solution(a) }),
     );
 
     val acceptedSolution = solutionPairs.firstOrNull { (givenDay, _) -> day == givenDay } ?: return
