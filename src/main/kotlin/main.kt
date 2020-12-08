@@ -124,6 +124,12 @@ fun day5Solution(linesOfFile: List<String>) {
 
 }
 
+fun day6Solution(lines: List<String>) {
+    val quiz = Day6Quiz(lines)
+    val partOneAnswer = quiz.getAllQuestionsAnsweredByGroups()
+    println("Solution 1: $partOneAnswer")
+}
+
 // Everything below this line is what makes this program somewhat "extensible". It sets up the ability to change what
 // day it is via an enum.
 enum class Day {
@@ -132,10 +138,11 @@ enum class Day {
     DAY3,
     DAY4,
     DAY5,
+    DAY6,
 }
 
 fun main(args: Array<String>) {
-    val day = Day.DAY5;
+    val day = Day.DAY6;
 
     val solutionPairs = arrayOf(
         Triple<Day, String, (a: List<String>) -> Unit>(
@@ -146,6 +153,7 @@ fun main(args: Array<String>) {
         Triple(Day.DAY3, "/home/nate/Code/aoc1kot/day3_puzzle_input.txt", { a -> day3Solution(a) }),
         Triple(Day.DAY4, "/home/nate/Code/aoc1kot/day4_puzzle_input.txt", { a -> day4Solution(a) }),
         Triple(Day.DAY5, "/home/nate/Code/aoc1kot/day5_puzzle_input.txt", { a -> day5Solution(a) }),
+        Triple(Day.DAY6, "/home/nate/Code/aoc1kot/day6_puzzle_input.txt", { a -> day6Solution(a) })
     );
 
     val acceptedSolution = solutionPairs.firstOrNull { (givenDay, _) -> day == givenDay } ?: return
